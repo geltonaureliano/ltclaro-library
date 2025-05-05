@@ -1,0 +1,96 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model Book {
+  id              String      @id @default(uuid())
+  title           String
+  author          String
+  isbn            String      @unique
+  publicationYear Int
+  publisher       String
+  categories      String[]
+  description     String?
+  createdAt       DateTime    @default(now())
+  updatedAt       DateTime    @updatedAt
+  copies          Copy[]
+
+  @@map("books")
+}
+
+model Copy {
+  id              String      @id @default(uuid())
+  code            String      @unique
+  status          String
+  condition       String
+  location        String
+  createdAt       DateTime    @default(now())
+  updatedAt       DateTime    @updatedAt
+  
+  bookId          String
+  book            Book        @relation(fields: [bookId], references: [id], onDelete: Cascade)
+  loans           Loan[]
+
+  @@map("copies")
+}
+
+model User {
+  id              String      @id @default(uuid())
+  name            String
+  email           String      @unique
+  documentId      String      @unique
+  password        String
+  phone           String
+  address         String
+  userType        String
+  status          String
+  createdAt       DateTime    @default(now())
+  updatedAt       DateTime    @updatedAt
+  
+  loans           Loan[]
+  fines           Fine[]
+
+  @@map("users")
+}
+
+model Loan {
+  id                  String      @id @default(uuid())
+  loanDate            DateTime    @default(now())
+  expectedReturnDate  DateTime
+  actualReturnDate    DateTime?
+  status              String
+  createdAt           DateTime    @default(now())
+  updatedAt           DateTime    @updatedAt
+  
+  copyId              String
+  copy                Copy        @relation(fields: [copyId], references: [id])
+  
+  userId              String
+  user                User        @relation(fields: [userId], references: [id])
+  
+  fine                Fine?
+
+  @@map("loans")
+}
+
+model Fine {
+  id              String      @id @default(uuid())
+  amount          Float
+  status          String
+  paymentDate     DateTime?
+  createdAt       DateTime    @default(now())
+  updatedAt       DateTime    @updatedAt
+  
+  loanId          String      @unique
+  loan            Loan        @relation(fields: [loanId], references: [id])
+  
+  userId          String
+  user            User        @relation(fields: [userId], references: [id])
+
+  @@map("fines")
+} 

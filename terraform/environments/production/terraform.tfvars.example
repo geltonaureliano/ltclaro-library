@@ -1,0 +1,26 @@
+# AWS Configuration
+region      = "us-east-1"
+environment = "production"
+app_name    = "ltclaro-library"
+
+# VPC Configuration
+vpc_cidr           = "10.0.0.0/16"
+availability_zones = ["us-east-1a", "us-east-1b", "us-east-1c"]
+
+# Database Configuration
+database_name = "ltclaro_library"
+db_username   = "ltclaro_user"
+db_password   = "change_this_password"
+
+# Application Configuration
+app_image      = "your-account.dkr.ecr.us-east-1.amazonaws.com/ltclaro-library:latest"
+container_port = 3000
+
+# AWS Account Info
+aws_account_id = "your-aws-account-id"
+
+# SSL/TLS Configuration
+certificate_arn = "arn:aws:acm:us-east-1:your-account-id:certificate/your-certificate-id"
+
+# Project Configuration
+project_name = "ltclaro-library" 

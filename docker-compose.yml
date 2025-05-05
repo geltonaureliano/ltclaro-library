@@ -1,0 +1,45 @@
+version: '3.9'
+
+services:
+  api:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: ltclaro-library-api
+    ports:
+      - "3000:3000"
+    depends_on:
+      - postgres
+    environment:
+      - NODE_ENV=development
+      - DATABASE_URL=postgresql://postgres:postgres@postgres:5432/ltclaro_library?schema=public
+      - PORT=3000
+      - LOG_LEVEL=debug
+    volumes:
+      - ./:/app
+      - /app/node_modules
+    restart: unless-stopped
+    networks:
+      - ltclaro-network
+
+  postgres:
+    image: postgres:14-alpine
+    container_name: ltclaro-library-postgres
+    environment:
+      - POSTGRES_USER=postgres
+      - POSTGRES_PASSWORD=postgres
+      - POSTGRES_DB=ltclaro_library
+    ports:
+      - "5432:5432"
+    volumes:
+      - postgres-data:/var/lib/postgresql/data
+    restart: unless-stopped
+    networks:
+      - ltclaro-network
+
+volumes:
+  postgres-data:
+
+networks:
+  ltclaro-network:
+    driver: bridge 
