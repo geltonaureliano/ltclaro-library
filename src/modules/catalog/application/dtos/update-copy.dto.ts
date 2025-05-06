@@ -1,6 +1,6 @@
 import { IsString, IsEnum, IsOptional } from 'class-validator';
 import { ApiProperty } from '@nestjs/swagger';
-import { CopyStatus, CopyCondition } from '../../domain/entities/exemplary.entity';
+import { CopyStatus, CopyCondition } from '../../domain/entities/copy.entity';
 
 export class UpdateCopyDto {
   @ApiProperty({ description: 'Copy status', enum: CopyStatus, required: false })

@@ -17,7 +17,7 @@ export class BookService {
     take?: number;
     title?: string;
     author?: string;
-    categorias?: string[];
+    categories?: string[];
   }): Promise<{ books: Book[]; total: number }> {
     return this.bookRepository.findAll(options);
   }
@@ -25,7 +25,7 @@ export class BookService {
   async findById(id: string): Promise<Book> {
     const book = await this.bookRepository.findById(id);
     if (!book) {
-      throw new NotFoundException(`Book com ID ${id} não encontrado`);
+      throw new NotFoundException(`Book with ID ${id} not found`);
     }
     return book;
   }
@@ -33,7 +33,7 @@ export class BookService {
   async findByIsbn(isbn: string): Promise<Book> {
     const book = await this.bookRepository.findByIsbn(isbn);
     if (!book) {
-      throw new NotFoundException(`Book com ISBN ${isbn} não encontrado`);
+      throw new NotFoundException(`Book with ISBN ${isbn} not found`);
     }
     return book;
   }
@@ -41,17 +41,17 @@ export class BookService {
   async create(createBookDto: CreateBookDto): Promise<Book> {
     const existingBook = await this.bookRepository.findByIsbn(createBookDto.isbn);
     if (existingBook) {
-      throw new Error(`Já existe um book com o ISBN ${createBookDto.isbn}`);
+      throw new Error(`A book with ISBN ${createBookDto.isbn} already exists`);
     }
 
     const book = new Book({
       title: createBookDto.title,
       author: createBookDto.author,
       isbn: createBookDto.isbn,
-      anoPublicacao: createBookDto.anoPublicacao,
-      editora: createBookDto.editora,
-      categorias: createBookDto.categorias,
-      descricao: createBookDto.descricao,
+      publicationYear: createBookDto.publicationYear,
+      publisher: createBookDto.publisher,
+      categories: createBookDto.categories,
+      description: createBookDto.description,
     });
 
     return this.bookRepository.create(book);
@@ -61,19 +61,19 @@ export class BookService {
     const book = await this.findById(id);
 
     if (updateBookDto.title) {
-      book.atualizartitle(updateBookDto.title);
+      book.updateTitle(updateBookDto.title);
     }
 
     if (updateBookDto.author) {
-      book.atualizarauthor(updateBookDto.author);
+      book.updateAuthor(updateBookDto.author);
     }
 
-    if (updateBookDto.descricao !== undefined) {
-      book.atualizarDescricao(updateBookDto.descricao);
+    if (updateBookDto.description !== undefined) {
+      book.updateDescription(updateBookDto.description);
     }
 
-    if (updateBookDto.categorias) {
-      book.atualizarCategorias(updateBookDto.categorias);
+    if (updateBookDto.categories) {
+      book.updateCategories(updateBookDto.categories);
     }
 
     return this.bookRepository.update(book);

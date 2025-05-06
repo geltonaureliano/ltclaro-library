@@ -6,7 +6,7 @@ export interface BookRepository {
     take?: number;
     title?: string;
     author?: string;
-    categorias?: string[];
+    categories?: string[];
   }): Promise<{ books: Book[]; total: number }>;
   
   findById(id: string): Promise<Book | null>;

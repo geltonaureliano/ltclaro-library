@@ -1,6 +1,6 @@
 import { IsString, IsNotEmpty, IsEnum, IsUUID } from 'class-validator';
 import { ApiProperty } from '@nestjs/swagger';
-import { CopyStatus, CopyCondition } from '../../domain/entities/exemplary.entity';
+import { CopyStatus, CopyCondition } from '../../domain/entities/copy.entity';
 
 export class CreateCopyDto {
   @ApiProperty({ description: 'Copy code', example: 'C001' })

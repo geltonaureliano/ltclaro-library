@@ -1,5 +1,5 @@
 import { Injectable, Inject, NotFoundException } from '@nestjs/common';
-import { Copy, CopyStatus, CopyCondition } from '../../domain/entities/exemplary.entity';
+import { Copy, CopyStatus, CopyCondition } from '../../domain/entities/copy.entity';
 import { CopyRepository } from '../../domain/repositories/copy-repository.interface';
 import { BookService } from './book.service';
 import { CreateCopyDto } from '../dtos/create-copy.dto';
